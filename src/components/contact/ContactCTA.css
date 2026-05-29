@@ -84,11 +84,11 @@
 
   margin-bottom: 28px;
 
-  font-family: "Syne", sans-serif;
+  font-family: "Nunito", sans-serif;
 
   font-size: clamp(54px, 6vw, 60px);
 
-  line-height: 0.94;
+  line-height: 1.2;
 
   letter-spacing: -0.06em;
 

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
 .wwd-root {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
   background: #ffffff;
   padding: 100px 80px 100px;
   position: relative;
@@ -87,7 +87,7 @@
  
 /* HEADING */
 .wwd-heading {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(36px, 3.2vw, 54px);
   line-height: 1.05;
   font-weight: 700;
@@ -108,7 +108,7 @@
   max-width: 400px;
   color: #888888;
   line-height: 1.9;
-  font-size: 15px;
+      font-size: 20px;
   margin-bottom: 48px;
 }
 
@@ -121,7 +121,7 @@
 }
 
 .wwd-stat-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 28px;
   color: #1a1a1a;
   font-weight: 700;
@@ -213,7 +213,7 @@
 
 /* TITLE */
 .wwd-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 26px;
   line-height: 1.18;
   color: #1a1a1a;

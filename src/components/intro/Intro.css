@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@300..700&display=swap');
+
 .intro-section {
     position: relative;
     padding: 100px 90px;
@@ -76,8 +79,8 @@
   color: #1a1a1a;
   margin: 0;
   max-width: 760px;
-  font-family: "Syne", sans-serif;
-  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
 }
 
 /* AFTER */
@@ -96,7 +99,7 @@
 .section-desc {
   max-width: 520px;
   margin-top: 34px;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 2;
   color: #888888;
   font-weight: 400;
