@@ -216,48 +216,26 @@
 /* PRIMARY */
 
 .btn-primary {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 14px 28px;
-
-  border-radius: 14px;
-
-  text-decoration: none;
-
-  background:
-    linear-gradient(
-      135deg,
-      #c94a4a,
-      #e56e6e
-    );
-
-  color: white;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.08em;
-
-  text-transform: uppercase;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-
-  box-shadow:
-    0 12px 34px rgba(201, 74, 74, 0.22);
-
-  border: none;
-
-  cursor: pointer;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #c94a4a, #e77474);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 14px 36px rgba(201, 74, 74, 0.22);
 }
-
 .btn-primary:hover {
 
   transform: translateY(-3px);
@@ -269,38 +247,21 @@
 /* OUTLINE */
 
 .btn-outline {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 14px 28px;
-
-  border-radius: 14px;
-
-  text-decoration: none;
-
-  border:
-    1px solid rgba(0, 0, 0, 0.08);
-
-  background:
-    rgba(255, 255, 255, 0.6);
-
-  backdrop-filter: blur(10px);
-
-  color: #222;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.08em;
-
-  text-transform: uppercase;
-
-  transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    color: #222;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
 }
 
 .btn-outline:hover {

@@ -1,16 +1,10 @@
 import "./WhatWeDo.css";
-
 import { Link } from "react-router-dom";
-
 import { useEffect, useRef } from "react";
-
-
 import gsap from "gsap";
-
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
 
 const services = [
   {
@@ -104,16 +98,70 @@ const services = [
 ];
 
 export default function WhatWeDo() {
-
   const cardsRef = useRef([]);
   const sectionRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const headingRef = useRef(null);
+  const descRef = useRef(null);
+  const statsRef = useRef(null);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
+      // ── LEFT CONTENT SCROLL-TRIGGERED ANIMATION ──
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+          once: true,
+        },
+        defaults: { ease: "power3.out" },
+      });
 
+      /* 1 — Eyebrow slides in from left */
+      tl.fromTo(
+        eyebrowRef.current,
+        { opacity: 0, x: -14 },
+        { opacity: 1, x: 0, duration: 0.45 }
+      );
+
+      /* 2 — Heading fades up */
+      tl.fromTo(
+        headingRef.current,
+        { yPercent: 115, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.72 },
+        "-=0.1"
+      );
+
+      /* 3 — Description fades up with blur */
+      tl.fromTo(
+        descRef.current,
+        { opacity: 0, y: 28, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          ease: "power2.out",
+        },
+        "-=0.35"
+      );
+
+      /* 4 — Stats fade up */
+      tl.fromTo(
+        statsRef.current,
+        { opacity: 0, y: 28, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.85,
+          ease: "power2.out",
+        },
+        "-=0.25"
+      );
+
+      // ── CARDS SCROLL ANIMATION ──
       cardsRef.current.forEach((card) => {
-
         gsap.set(card, { opacity: 0, y: 90, scale: 0.97 });
 
         gsap.to(card, {
@@ -122,7 +170,6 @@ export default function WhatWeDo() {
           scale: 1,
           duration: 1,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: card,
             start: "top 82%",
@@ -131,219 +178,152 @@ export default function WhatWeDo() {
           },
         });
       });
-
     }, sectionRef);
 
     return () => ctx.revert();
-
   }, []);
 
   return (
+    <section className="wwd-root" id="solutions" ref={sectionRef}>
+      {/* BACKGROUND LINES */}
+      <svg
+        className="wwd-bg-lines"
+        viewBox="0 0 1440 900"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <g fill="none" stroke="#c94a4a" strokeLinecap="round">
+          <path
+            d="M 0,0 C 380,55  980,110 1440,150"
+            strokeWidth="0.9"
+            opacity="0.16"
+          />
+          <path
+            d="M 0,0 C 360,100 920,210 1440,290"
+            strokeWidth="0.9"
+            opacity="0.14"
+          />
+          <path
+            d="M 0,0 C 330,150 860,320 1440,440"
+            strokeWidth="0.9"
+            opacity="0.13"
+          />
+          <path
+            d="M 0,0 C 300,205 790,435 1440,590"
+            strokeWidth="0.9"
+            opacity="0.12"
+          />
+          <path
+            d="M 0,0 C 265,260 710,545 1440,740"
+            strokeWidth="0.9"
+            opacity="0.11"
+          />
+          <path
+            d="M 0,0 C 230,310 620,645 1440,880"
+            strokeWidth="0.9"
+            opacity="0.10"
+          />
+          <path
+            d="M 0,0 C 195,350 530,720 1280,900"
+            strokeWidth="0.9"
+            opacity="0.09"
+          />
+          <path
+            d="M 0,0 C 160,385 430,780 980,900"
+            strokeWidth="0.9"
+            opacity="0.08"
+          />
+          <path
+            d="M 0,0 C 125,410 320,825 660,900"
+            strokeWidth="0.9"
+            opacity="0.07"
+          />
+          <path
+            d="M 0,0 C 90,428 210,850 350,900"
+            strokeWidth="0.9"
+            opacity="0.06"
+          />
+          <path
+            d="M 0,0 C 50,438 110,860 160,900"
+            strokeWidth="0.9"
+            opacity="0.05"
+          />
+          <path
+            d="M 0,0 C 50,438 110,860 160,900"
+            strokeWidth="0.9"
+            opacity="0.04"
+          />
+        </g>
+      </svg>
 
-    <section
-      className="wwd-root"
-      id="solutions"
-      ref={sectionRef}
-    >
-         
+      <div className="layout-container">
+        <div className="wwd-inner">
+          {/* LEFT — sticky */}
+          <div className="wwd-left">
+            <span className="wwd-eyebrow" ref={eyebrowRef}>
+              WHAT WE DO
+            </span>
 
-   {/* BACKGROUND LINES */}
+            <h2 className="wwd-heading" ref={headingRef}>
+              Intelligent Systems
+              <br />
+              <em>Built for Operations</em>
+            </h2>
 
-<svg
-  className="wwd-bg-lines"
-  viewBox="0 0 1440 900"
-  xmlns="http://www.w3.org/2000/svg"
-  preserveAspectRatio="xMidYMid slice"
-  aria-hidden="true"
->
+            <p className="wwd-desc" ref={descRef}>
+              Enterprise automation, OCR and infrastructure systems engineered
+              for logistics, warehousing and industrial operations.
+            </p>
 
-  <g
-    fill="none"
-    stroke="#c94a4a"
-    strokeLinecap="round"
-  >
-
-    <path
-      d="M 0,0 C 380,55  980,110 1440,150"
-      strokeWidth="0.9"
-      opacity="0.16"
-    />
-
-    <path
-      d="M 0,0 C 360,100 920,210 1440,290"
-      strokeWidth="0.9"
-      opacity="0.14"
-    />
-
-    <path
-      d="M 0,0 C 330,150 860,320 1440,440"
-      strokeWidth="0.9"
-      opacity="0.13"
-    />
-
-    <path
-      d="M 0,0 C 300,205 790,435 1440,590"
-      strokeWidth="0.9"
-      opacity="0.12"
-    />
-
-    <path
-      d="M 0,0 C 265,260 710,545 1440,740"
-      strokeWidth="0.9"
-      opacity="0.11"
-    />
-
-    <path
-      d="M 0,0 C 230,310 620,645 1440,880"
-      strokeWidth="0.9"
-      opacity="0.10"
-    />
-
-    <path
-      d="M 0,0 C 195,350 530,720 1280,900"
-      strokeWidth="0.9"
-      opacity="0.09"
-    />
-
-    <path
-      d="M 0,0 C 160,385 430,780 980,900"
-      strokeWidth="0.9"
-      opacity="0.08"
-    />
-
-    <path
-      d="M 0,0 C 125,410 320,825 660,900"
-      strokeWidth="0.9"
-      opacity="0.07"
-    />
-
-    <path
-      d="M 0,0 C 90,428 210,850 350,900"
-      strokeWidth="0.9"
-      opacity="0.06"
-    />
-
-    <path
-      d="M 0,0 C 50,438 110,860 160,900"
-      strokeWidth="0.9"
-      opacity="0.05"
-    />
-       <path
-      d="M 0,0 C 50,438 110,860 160,900"
-      strokeWidth="0.9"
-      opacity="0.04"
-    />
-
-  </g>
-
-</svg>
-
-<div className="layout-container">
-      <div className="wwd-inner">
-
-        {/* LEFT — sticky */}
-
-        <div className="wwd-left">
-
-          <span className="wwd-eyebrow">
-            WHAT WE DO
-          </span>
-
-          <h2 className="wwd-heading">
-
-            Intelligent Systems
-            <br />
-
-            <em>
-              Built for Operations
-            </em>
-
-          </h2>
-
-          <p className="wwd-desc">
-            Enterprise automation, OCR and
-            infrastructure systems engineered
-            for logistics, warehousing and
-            industrial operations.
-          </p>
-
-          <div className="wwd-stats">
-
-            <div>
-              <div className="wwd-stat-num">
-                11<span>+</span>
+            <div className="wwd-stats" ref={statsRef}>
+              <div>
+                <div className="wwd-stat-num">
+                  11<span>+</span>
+                </div>
+                <div className="wwd-stat-label">Core Solutions</div>
               </div>
-              <div className="wwd-stat-label">
-                Core Solutions
+
+              <div>
+                <div className="wwd-stat-num">
+                  99<span>%</span>
+                </div>
+                <div className="wwd-stat-label">OCR Accuracy</div>
+              </div>
+
+              <div>
+                <div className="wwd-stat-num">
+                  24<span>/7</span>
+                </div>
+                <div className="wwd-stat-label">Uptime SLA</div>
               </div>
             </div>
-
-            <div>
-              <div className="wwd-stat-num">
-                99<span>%</span>
-              </div>
-              <div className="wwd-stat-label">
-                OCR Accuracy
-              </div>
-            </div>
-
-            <div>
-              <div className="wwd-stat-num">
-                24<span>/7</span>
-              </div>
-              <div className="wwd-stat-label">
-                Uptime SLA
-              </div>
-            </div>
-
           </div>
 
+          {/* RIGHT — 11 cards */}
+          <div className="wwd-grid">
+            {services.map((service, index) => (
+              <Link
+                key={service.slug}
+                to={`/solutions/${service.slug}`}
+                className="wwd-card"
+                ref={(el) => (cardsRef.current[index] = el)}
+              >
+                <div className="wwd-card-top">
+                  <span className="wwd-idx">{service.index}</span>
+                  <span className="wwd-tag">{service.tag}</span>
+                </div>
+
+                <h3 className="wwd-title">{service.title}</h3>
+
+                <p className="wwd-text">{service.desc}</p>
+
+                <div className="wwd-arrow">→</div>
+              </Link>
+            ))}
+          </div>
         </div>
-
-        {/* RIGHT — 11 cards */}
-
-        <div className="wwd-grid">
-
-          {services.map((service) => (
-
-           <Link
-  to={`/solutions/${service.slug}`}
-  className="wwd-card"
->
-
-  <div className="wwd-card-top">
-
-    <span className="wwd-idx">
-      {service.index}
-    </span>
-
-    <span className="wwd-tag">
-      {service.tag}
-    </span>
-
-  </div>
-
-  <h3 className="wwd-title">
-    {service.title}
-  </h3>
-
-  <p className="wwd-text">
-    {service.desc}
-  </p>
-
-  <div className="wwd-arrow">
-    →
-  </div>
-
-</Link>
-          ))}
-
-        </div>
-
       </div>
-      </div>
-
     </section>
-    
   );
 }

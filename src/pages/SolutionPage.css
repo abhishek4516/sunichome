@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Quicksand:wght@300..700&display=swap');
 /* ─── ROOT ───────────────────────────────────────────────── */
 .sp-root {
   position: relative;
@@ -57,13 +57,13 @@
 
 /* ─── TITLE ──────────────────────────────────────────────── */
 .sp-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(44px, 6vw, 82px);
-  line-height: 0.97;
-  letter-spacing: -0.05em;
-  color: #151515;
-  margin: 0 0 36px;
-  max-width: 860px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(44px, 6vw, 60px);
+    line-height: 0.97;
+    letter-spacing: -0.05em;
+    color: #151515;
+    margin: 0 0 10px;
+    max-width: 860px;
 }
 
 .sp-title-em {
@@ -95,7 +95,7 @@
 
 /* ─── SECTION HEADER ─────────────────────────────────────── */
 .sp-section-header {
-  margin-bottom: 48px;
+    margin-bottom: 30px;
 }
 
 .sp-section-eyebrow {
@@ -120,7 +120,7 @@
 }
 
 .sp-section-title {
-  font-family: 'Syne', sans-serif;
+     font-family: 'Manrope', sans-serif;
   font-size: clamp(28px, 3vw, 42px);
   color: #151515;
   letter-spacing: -0.03em;
@@ -143,10 +143,10 @@
 }
 
 .sp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
-    gap: 22px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  gap: 22px;
+  margin-bottom: 20px;
 }
 
 /* ─── CARD ───────────────────────────────────────────────── */
@@ -181,7 +181,6 @@
   box-shadow: 0 18px 50px rgba(201,74,74,0.06);
 }
 
-/* CARD TOP ROW */
 .sp-card-top {
   display: flex;
   align-items: center;
@@ -209,7 +208,6 @@
   transform: scale(1.3);
 }
 
-/* CARD TEXT */
 .sp-card-text {
   font-size: 15px;
   line-height: 1.85;
@@ -217,7 +215,6 @@
   margin: 0;
 }
 
-/* CARD ARROW */
 .sp-card-arrow {
   position: absolute;
   right: 24px;
@@ -258,7 +255,6 @@
   text-align: center;
 }
 
-/* inner glow */
 .sp-cta-glow {
   position: absolute;
   width: 600px;
@@ -291,13 +287,13 @@
 }
 
 .sp-cta-title {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 3.5vw, 48px);
-  color: #151515;
-  letter-spacing: -0.04em;
-  font-weight: 700;
-  line-height: 1.05;
-  margin: 0 0 18px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(28px, 3.5vw, 40px);
+    color: #151515;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    line-height: 1.05;
+    margin: 0 0 15px;
 }
 
 .sp-cta-title em {
@@ -310,7 +306,7 @@
 
 .sp-cta-desc {
   color: #888;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.95;
   max-width: 560px;
   margin: 0 auto 40px;
@@ -407,90 +403,163 @@
   margin-bottom: 40px;
 }
 
+/* ─── HERO WITH IMAGE GRID ───────────────────────────────── */
+.sp-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-top: 10%;
+  margin-bottom: 80px;
+}
+
+/* ─── IMAGE STYLES ───────────────────────────────────────── */
+.sp-hero-image {
+    position: relative;
+    z-index: 10;
+}
+.sp-image-wrapper {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  width: 80%;
+}
+
+.sp-main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 24px;
+}
+
+.sp-image-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(201, 74, 74, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 24px;
+}
+
+
+.sp-features-section {
+  margin-bottom: 100px;
+}
+
+.sp-accordion {
+    border-top: 1px solid #f0e8e8;
+    margin-bottom: 20px;
+}
+.sp-accordion-item {
+  border-bottom: 1px solid #f0e8e8;
+  transition: background 0.25s ease;
+}
+
+.sp-accordion-item--open {
+  background: rgba(201, 74, 74, 0.025);
+}
+
+.sp-accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.sp-accordion-trigger:hover .sp-accordion-title {
+  color: #c94a4a;
+}
+
+.sp-accordion-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sp-feature-index {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: #c94a4a;
+    opacity: 0.9;
+    min-width: 2rem;
+    font-family: 'Manrope', sans-serif;
+}
+
+.sp-accordion-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s ease;
+  letter-spacing: 0.005em;
+}
+
+.sp-accordion-icon {
+  color: #d4b8b8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.sp-accordion-item--open .sp-accordion-icon {
+  transform: rotate(180deg);
+  color: #c94a4a;
+}
+
+.sp-accordion-body {
+  overflow: hidden;
+}
+
+.sp-accordion-desc {
+    padding: 0 0 1.5rem 3.25rem;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #666565;
+    max-width: 680px;
+    margin: 0;
+}
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 992px) {
   .sp-hero { padding-top: 130px; padding-bottom: 60px; }
   .sp-cta { padding: 56px 48px; }
 }
 
+@media (max-width: 968px) {
+  .sp-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .sp-hero-image {
+    order: -1;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
 @media (max-width: 768px) {
   .sp-hero { padding-top: 110px; }
   .sp-cta { padding: 44px 28px; }
   .sp-card { padding: 28px 28px 50px; }
-
   .sp-cta-title { font-size: 28px; }
-
   .sp-cta-actions {
     flex-direction: column;
     align-items: stretch;
   }
-
   .sp-btn {
     text-align: center;
     justify-content: center;
   }
-}
-/* ─── KEY FEATURES LIST ──────────────────────────────────── */
-.sp-features-section {
-  margin-bottom: 100px;
-}
-
-.sp-features-list {
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid #f0e8e8;
-}
-
-.sp-feature-row {
-  display: flex;
-  align-items: baseline;
-  gap: 32px;
-  padding: 28px 0;
-  border-bottom: 1px solid #f0e8e8;
-  transition: background 0.3s ease;
-}
-
-.sp-feature-row:hover .sp-feature-text {
-  color: #333;
-}
-
-.sp-feature-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  width: 56px;
-}
-
-.sp-feature-index {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  color: #c94a4a;
-  opacity: 0.5;
-  font-family: 'Syne', sans-serif;
-  font-weight: 600;
-}
-
-.sp-feature-tick {
-  color: #e8c4c4;
-  font-size: 14px;
-}
-
-.sp-feature-text {
-  font-size: 16px;
-  line-height: 1.75;
-  color: #666;
-  margin: 0;
-  transition: color 0.3s ease;
-}
-
-@media (max-width: 768px) {
-  .sp-feature-row {
-    gap: 20px;
-    padding: 22px 0;
-  }
-
-  .sp-feature-text {
-    font-size: 15px;
+  .sp-accordion-title { font-size: 15px; }
+  .sp-accordion-desc {
+    padding-left: 0;
+    font-size: 14px;
   }
 }

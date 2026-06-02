@@ -1,196 +1,212 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
-
-/* ─── ROOT ─────────────────────────────────────────────── */
-.ll-root {
+.logoloop-section {
+  width: 100%;
   background: #ffffff;
-  padding: 64px 0 72px;
-  position: relative;
+  padding: 80px 0;
   overflow: hidden;
+  position: relative;
 }
 
-/* ─── HEADER ────────────────────────────────────────────── */
-.ll-header {
-  display: flex;
+/* Header Styles - matching your theme */
+.logoloop-header {
+    /* text-align: center; */
+    margin-bottom: 60px;
+}
+
+.logoloop-eyebrow {
+  display: inline-flex;
   align-items: center;
-  gap: 20px;
-  max-width: 1380px;
-  margin: 0 auto 48px;
-  padding: 0 80px;
-}
-
-.ll-rule {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #f0e8e8, transparent);
-}
-
-.ll-label {
-  font-family: 'DM Sans', sans-serif;
+  gap: 12px;
   font-size: 11px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: #c94a4a;
-  white-space: nowrap;
-  opacity: 0.75;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-/* ─── STAGE ─────────────────────────────────────────────── */
-.ll-stage {
+.logoloop-eyebrow-line {
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, #c94a4a, transparent);
+}
+
+.logoloop-title {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #151515;
+  margin: 0 0 16px;
+  line-height: 1.08;
+}
+
+.logoloop-title em {
+  font-style: normal;
+  background: linear-gradient(120deg, #c94a4a, #e07070);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logoloop-desc {
+  color: #888;
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+  /* margin: 0 auto; */
+}
+
+/* Logo Loop Container */
+.logoloop-container {
+  width: 100%;
+  overflow: hidden;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  margin-top: 20px;
 }
 
-/* soft edge fade masks */
-.ll-fade {
+/* Gradient fades on edges */
+.logoloop-container::before,
+.logoloop-container::after {
+  content: '';
   position: absolute;
   top: 0;
-  bottom: 0;
-  width: 220px;
+  width: 100px;
+  height: 100%;
   z-index: 2;
   pointer-events: none;
 }
 
-.ll-fade--left {
+.logoloop-container::before {
   left: 0;
-  background: linear-gradient(90deg, #ffffff 0%, transparent 100%);
+  background: linear-gradient(90deg, #ffffff, transparent);
 }
 
-.ll-fade--right {
+.logoloop-container::after {
   right: 0;
-  background: linear-gradient(270deg, #ffffff 0%, transparent 100%);
+  background: linear-gradient(270deg, #ffffff, transparent);
 }
 
-/* ─── ROW ────────────────────────────────────────────────── */
-.ll-row {
-  overflow: hidden;
-}
-
-/* ─── TRACK (animated strip) ─────────────────────────────── */
-.ll-track {
+.logoloop-track {
   display: flex;
-  gap: 20px;
-  width: max-content;
+  gap: 48px;
+  animation: scrollLogos 30s linear infinite;
+  width: fit-content;
 }
 
-/* forward — left to right */
-.ll-row--fwd .ll-track {
-  animation: ll-scroll-fwd 32s linear infinite;
-}
-
-/* reverse — right to left */
-.ll-row--rev .ll-track {
-  animation: ll-scroll-rev 38s linear infinite;
-}
-
-/* pause on hover */
-.ll-stage:hover .ll-track {
+.logoloop-track:hover {
   animation-play-state: paused;
 }
 
-/* ─── KEYFRAMES ──────────────────────────────────────────── */
-@keyframes ll-scroll-fwd {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-@keyframes ll-scroll-rev {
-  0%   { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
-}
-
-/* ─── ITEM ───────────────────────────────────────────────── */
-.ll-item {
+.logoloop-item {
   flex-shrink: 0;
-}
-
-/* ─── LOGO BOX ───────────────────────────────────────────── */
-.ll-logo-box {
-  height: 72px;
-  min-width: 160px;
-  padding: 0 32px;
-  border-radius: 16px;
-  border: 1px solid #f0e8e8;
-  background: #fdf8f8;
+  padding: 20px 32px;
+  transition: transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:
-    border-color 0.35s ease,
-    background   0.35s ease,
-    transform    0.35s ease;
-  cursor: default;
 }
 
-.ll-logo-box:hover {
-  border-color: #e8c4c4;
-  background: #fef4f4;
-  transform: translateY(-3px);
+.logoloop-item:hover {
+  transform: scale(1.05);
 }
 
-/* ─── LOGO PLACEHOLDER TEXT ──────────────────────────────── */
-.ll-logo-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #c94a4a;
-  opacity: 0.55;
-  text-transform: uppercase;
-  user-select: none;
-  transition: opacity 0.3s ease;
+/* Logo Image Styles */
+.logo-image {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.5;
+  transition: all 0.3s ease;
 }
 
-.ll-logo-box:hover .ll-logo-name {
-  opacity: 0.85;
+.logoloop-item:hover .logo-image {
+  filter: grayscale(0%);
+  opacity: 1;
 }
 
-/* ─── FOOTER ─────────────────────────────────────────────── */
-.ll-footer {
+/* Fallback Text Styles */
+.logo-fallback {
   display: flex;
-  max-width: 1380px;
-  margin: 48px auto 0;
-  padding: 0 80px;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  height: 40px;
 }
 
-.ll-footer .ll-rule {
-  flex: 1;
-  background: linear-gradient(90deg, transparent, #f0e8e8, transparent);
+.logo-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #999;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  filter: grayscale(100%);
+  opacity: 0.6;
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
+.logoloop-item:hover .logo-name {
+  color: #c94a4a;
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* Animation keyframes */
+@keyframes scrollLogos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .ll-header {
-    padding: 0 24px;
-    margin-bottom: 36px;
+  .logoloop-section {
+    padding: 60px 0;
   }
 
-  .ll-footer {
-    padding: 0 24px;
-    margin-top: 36px;
+  .logoloop-header {
+    margin-bottom: 40px;
   }
 
-  .ll-fade {
-    width: 80px;
+  .logoloop-title {
+    font-size: 32px;
   }
 
-  .ll-logo-box {
-    height: 60px;
-    min-width: 130px;
-    padding: 0 22px;
-    border-radius: 12px;
+  .logoloop-desc {
+    font-size: 14px;
+    padding: 0 20px;
   }
 
-  .ll-logo-name {
-    font-size: 13px;
+  .logoloop-item {
+    padding: 12px 20px;
   }
 
-  .ll-stage {
-    gap: 12px;
+  .logo-image {
+    height: 30px;
+    max-width: 90px;
   }
 
-  .ll-track {
-    gap: 14px;
+  .logo-fallback {
+    min-width: 70px;
+    height: 30px;
+  }
+
+  .logo-name {
+    font-size: 14px;
+  }
+
+  .logoloop-track {
+    gap: 30px;
+  }
+
+  .logoloop-container::before,
+  .logoloop-container::after {
+    width: 50px;
   }
 }

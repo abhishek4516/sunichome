@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./SolutionPage.css";
 import Navbar from "../components/layout/Navbar";
@@ -13,75 +13,123 @@ export default function SolutionPage() {
   const { slug } = useParams();
   const solution = solutions[slug];
 
-  const pageRef       = useRef(null);
-  const labelRef      = useRef(null);
-  const titleRef      = useRef(null);
-  const descRef       = useRef(null);
-  const featuresRef   = useRef([]);
-  const ctaRef        = useRef(null);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const pageRef     = useRef(null);
+  const labelRef    = useRef(null);
+  const titleRef    = useRef(null);
+  const descRef     = useRef(null);
+  const imageRef    = useRef(null);
+  const featuresRef = useRef([]);
+  const ctaRef      = useRef(null);
+
+  // Accordion body refs for GSAP height animation
+  const accordionBodyRefs = useRef([]);
+
+  const toggleAccordion = (i) => {
+    const isOpen = openIndex === i;
+    const newIndex = isOpen ? null : i;
+
+    // Animate closing previous
+    if (openIndex !== null && accordionBodyRefs.current[openIndex]) {
+      gsap.to(accordionBodyRefs.current[openIndex], {
+        height: 0,
+        opacity: 0,
+        duration: 0.35,
+        ease: "power2.inOut",
+      });
+    }
+
+    // Animate opening new
+    if (!isOpen && accordionBodyRefs.current[i]) {
+      const el = accordionBodyRefs.current[i];
+      gsap.set(el, { height: "auto", opacity: 1 });
+      const fullHeight = el.offsetHeight;
+      gsap.fromTo(el,
+        { height: 0, opacity: 0 },
+        { height: fullHeight, opacity: 1, duration: 0.4, ease: "power2.out" }
+      );
+    }
+
+    setOpenIndex(newIndex);
+  };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    ScrollTrigger.clearScrollMemory();
+
     if (!solution) return;
 
-    const ctx = gsap.context(() => {
+    const rafId = requestAnimationFrame(() => {
+      const ctx = gsap.context(() => {
 
-      /* ── HERO ENTRANCE ── */
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      tl.fromTo(labelRef.current,
-        { opacity: 0, x: -18 },
-        { opacity: 1, x: 0, duration: 0.55, delay: 0.2 }
-      )
-      .fromTo(titleRef.current,
-        { opacity: 0, y: 50, filter: "blur(8px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
-        "-=0.2"
-      )
-      .fromTo(descRef.current,
-        { opacity: 0, y: 28 },
-        { opacity: 1, y: 0, duration: 0.7 },
-        "-=0.4"
-      );
-
-      /* ── FEATURE ROWS SCROLL REVEAL ── */
-      featuresRef.current.forEach((el, i) => {
-        if (!el) return;
-        gsap.fromTo(el,
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.75,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 86%",
-              once: true,
-            },
-            delay: i * 0.05,
-          }
+        tl.fromTo(labelRef.current,
+          { opacity: 0, x: -18 },
+          { opacity: 1, x: 0, duration: 0.55, delay: 0.2 }
+        )
+        .fromTo(titleRef.current,
+          { opacity: 0, y: 50, filter: "blur(8px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+          "-=0.2"
+        )
+        .fromTo(descRef.current,
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 0.7 },
+          "-=0.4"
+        )
+        .fromTo(imageRef.current,
+          { opacity: 0, x: 60, scale: 0.95 },
+          { opacity: 1, x: 0, scale: 1, duration: 0.9, ease: "power3.out" },
+          "-=0.3"
         );
-      });
 
-      /* ── CTA ── */
-      if (ctaRef.current) {
-        gsap.fromTo(ctaRef.current,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.85,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: "top 88%",
-              once: true,
-            },
-          }
-        );
-      }
+        featuresRef.current.forEach((el, i) => {
+          if (!el) return;
+          gsap.fromTo(el,
+            { opacity: 0, y: 32 },
+            {
+              opacity: 1, y: 0,
+              duration: 0.75,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: el,
+                start: "top 86%",
+                once: true,
+              },
+              delay: i * 0.05,
+            }
+          );
+        });
 
-    }, pageRef);
+        if (ctaRef.current) {
+          gsap.fromTo(ctaRef.current,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1, y: 0,
+              duration: 0.85,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: ctaRef.current,
+                start: "top 88%",
+                once: true,
+              },
+            }
+          );
+        }
 
-    return () => ctx.revert();
+        ScrollTrigger.refresh();
+
+      }, pageRef);
+
+      rafId.ctx = ctx;
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      rafId.ctx?.revert();
+    };
   }, [solution]);
 
   if (!solution) {
@@ -107,7 +155,7 @@ export default function SolutionPage() {
 
       <main className="sp-root" ref={pageRef}>
 
-        {/* ── BACKGROUND LINES ── */}
+        {/* BACKGROUND LINES */}
         <svg
           className="sp-bg-lines"
           viewBox="0 0 1440 900"
@@ -125,34 +173,45 @@ export default function SolutionPage() {
           </g>
         </svg>
 
-        {/* ── HERO ── */}
-        <div className="sp-hero layout-container">
+        {/* HERO */}
+        <div className="sp-hero-wrapper layout-container">
+          <div className="sp-hero-grid">
+            <div className="sp-hero-content">
+              <div className="sp-label" ref={labelRef}>
+                <span className="sp-label-line" />
+                <span>Solution</span>
+              </div>
+              <h1 className="sp-title" ref={titleRef}>
+                {solution.title.split(" ").map((word, i, arr) =>
+                  i >= arr.length - 2
+                    ? <span key={i} className="sp-title-em">{word} </span>
+                    : <span key={i}>{word} </span>
+                )}
+              </h1>
+              <p className="sp-desc" ref={descRef}>
+                {solution.description}
+              </p>
+            </div>
 
-          <div className="sp-label" ref={labelRef}>
-            <span className="sp-label-line" />
-            <span>Solution</span>
+            <div className="sp-hero-image" ref={imageRef}>
+              <div className="sp-image-wrapper">
+                <img
+                  src={solution.image || "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1200&q=80"}
+                  alt={solution.title}
+                  className="sp-main-image"
+                />
+                <div className="sp-image-glow"></div>
+              </div>
+            </div>
           </div>
-
-          <h1 className="sp-title" ref={titleRef}>
-            {solution.title.split(" ").map((word, i, arr) =>
-              i >= arr.length - 2
-                ? <span key={i} className="sp-title-em">{word} </span>
-                : <span key={i}>{word} </span>
-            )}
-          </h1>
-
-          <p className="sp-desc" ref={descRef}>
-            {solution.description}
-          </p>
-
         </div>
 
-        {/* ── DIVIDER ── */}
+        {/* DIVIDER */}
         <div className="sp-divider layout-container">
           <div className="sp-divider-line" />
         </div>
 
-        {/* ── KEY FEATURES ── */}
+        {/* FEATURES ACCORDION */}
         <div className="sp-features-section layout-container">
 
           <div className="sp-section-header">
@@ -162,46 +221,68 @@ export default function SolutionPage() {
             </h2>
           </div>
 
-          <div className="sp-features-list">
-            {solution.benefits.map((item, i) => (
-              <div
-                key={i}
-                className="sp-feature-row"
-                ref={(el) => (featuresRef.current[i] = el)}
-              >
-                <div className="sp-feature-left">
-                  <span className="sp-feature-index">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="sp-feature-tick">—</span>
+          <div className="sp-accordion">
+            {solution.benefits.map((item, i) => {
+              const isOpen = openIndex === i;
+              return (
+                <div
+                  key={i}
+                  className={`sp-accordion-item${isOpen ? " sp-accordion-item--open" : ""}`}
+                  ref={(el) => (featuresRef.current[i] = el)}
+                >
+                  <button
+                    className="sp-accordion-trigger"
+                    onClick={() => toggleAccordion(i)}
+                    aria-expanded={isOpen}
+                  >
+                    <div className="sp-accordion-trigger-left">
+                      <span className="sp-feature-index">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="sp-accordion-title">{item.title}</span>
+                    </div>
+                    <span className="sp-accordion-icon" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path
+                          d="M4 7L9 12L14 7"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+
+                  <div
+                    className="sp-accordion-body"
+                    ref={(el) => (accordionBodyRefs.current[i] = el)}
+                    style={{ height: 0, overflow: "hidden", opacity: 0 }}
+                  >
+                    <p className="sp-accordion-desc">{item.description}</p>
+                  </div>
                 </div>
-                <p className="sp-feature-text">{item}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
 
-        {/* ── CTA ── */}
+        {/* CTA */}
         <div className="sp-cta-wrap layout-container" ref={ctaRef}>
           <div className="sp-cta">
-
             <div className="sp-cta-glow" />
-
             <div className="sp-cta-label">
               <span className="sp-cta-label-line" />
               <span>Get Started</span>
             </div>
-
             <h3 className="sp-cta-title">
               Ready to deploy <em>{solution.title}?</em>
             </h3>
-
             <p className="sp-cta-desc">
               Talk to our team and get a tailored implementation plan
               built around your operational environment.
             </p>
-
             <div className="sp-cta-actions">
               <a href="/contact" className="sp-btn sp-btn--primary">
                 Request a Demo
@@ -210,7 +291,6 @@ export default function SolutionPage() {
                 Explore All Solutions
               </a>
             </div>
-
           </div>
         </div>
 
