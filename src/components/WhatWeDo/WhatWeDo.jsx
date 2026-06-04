@@ -1,5 +1,5 @@
 import "./WhatWeDo.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -86,28 +86,32 @@ const services = [
   },
 ];
 
-const CARD_WIDTH = 400;  // must match CSS
-const CARD_GAP   = 28;   // must match CSS
-const CARD_STEP  = CARD_WIDTH + CARD_GAP;
+const CARD_WIDTH = 360;
+const CARD_GAP = 28;
+const CARD_STEP = CARD_WIDTH + CARD_GAP;
 
 export default function WhatWeDo() {
-  const sectionRef      = useRef(null);
-  const eyebrowRef      = useRef(null);
-  const headingRef      = useRef(null);
-  const descRef         = useRef(null);
-  const statsRef        = useRef(null);
-  const leftRef         = useRef(null);
-  const trackRef        = useRef(null);
-  const cardsAreaRef    = useRef(null);
+  const navigate = useNavigate();
+  const sectionRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const headingRef = useRef(null);
+  const descRef = useRef(null);
+  const statsRef = useRef(null);
+  const leftRef = useRef(null);
+  const trackRef = useRef(null);
+  const cardsAreaRef = useRef(null);
   const progressFillRef = useRef(null);
-  const progressBarRef  = useRef(null);
-  const hintRef         = useRef(null);
-  const cardsRef        = useRef([]);
+  const progressBarRef = useRef(null);
+  const hintRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  const handleCardClick = (slug) => {
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    navigate(`/solutions/${slug}`);
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      // ─── 1. INTRO ANIMATION (fires once when section enters viewport) ───
       const introTl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -131,89 +135,155 @@ export default function WhatWeDo() {
           { opacity: 0, y: 28, filter: "blur(6px)" },
           { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.85, ease: "power2.out" }, "-=0.25");
 
-      // ─── 2. HORIZONTAL SCROLL (pinned) ───
-      const track    = trackRef.current;
+      const track = trackRef.current;
       const totalCards = services.length;
 
-      // The distance we need to slide: first card centered → last card centered.
-      // We offset the track initially so card[0] is centered, then slide until card[last] is centered.
-      // Total slide = (totalCards - 1) * CARD_STEP
-      const getTotalSlide = () => (totalCards - 1) * CARD_STEP;
-
-      // We also need a generous pin distance so scrolling feels proportional.
-      // Give ~180px of real scroll per card.
-      const getScrollDistance = () => getTotalSlide() + window.innerHeight * 0.6;
-
-      // Set initial x so first card is centered in the viewport
-      const getInitialX = () => {
-        const vw = window.innerWidth;
-        // center of viewport minus center of first card
-        return (vw / 2) - (CARD_WIDTH / 2);
+      const getViewportCenter = () => {
+        return window.innerWidth / 2;
       };
 
-      // Apply initial position immediately (before pin)
-      gsap.set(track, { x: getInitialX() });
-
-      // Highlight active card helper
-      const highlightCards = (rawProgress) => {
-        const clamped    = Math.max(0, Math.min(1, rawProgress));
-        const activeIdx  = Math.round(clamped * (totalCards - 1));
+      const getActiveCardIndex = () => {
+        const viewportCenter = getViewportCenter();
+        let closestIndex = 0;
+        let minDistance = Infinity;
+        
         cardsRef.current.forEach((card, i) => {
           if (!card) return;
-          const dist = Math.abs(i - activeIdx);
-          const scale   = dist === 0 ? 1    : dist === 1 ? 0.95  : 0.91;
-          const opacity = dist === 0 ? 1    : dist === 1 ? 0.75  : 0.5;
-          gsap.to(card, { scale, opacity, duration: 0.25, ease: "power2.out", overwrite: true });
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.left + rect.width / 2;
+          const distance = Math.abs(cardCenter - viewportCenter);
+          
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+          }
+        });
+        
+        return closestIndex;
+      };
+
+      const getInitialX = () => {
+        const viewportCenter = window.innerWidth / 2;
+        const firstCardCenter = CARD_WIDTH / 2;
+        return viewportCenter - firstCardCenter;
+      };
+
+      const getFinalX = () => {
+        const viewportCenter = window.innerWidth / 2;
+        const totalWidth = (totalCards - 1) * CARD_STEP;
+        const lastCardCenter = totalWidth + (CARD_WIDTH / 2);
+        return viewportCenter - lastCardCenter;
+      };
+
+      const getTotalSlide = () => {
+        return Math.abs(getFinalX() - getInitialX());
+      };
+
+      const getScrollDistance = () => {
+        return getTotalSlide() + window.innerHeight * 0.5;
+      };
+
+      gsap.set(track, { x: getInitialX() });
+
+      const updateCardHighlights = () => {
+        const activeIdx = getActiveCardIndex();
+        
+        cardsRef.current.forEach((card, i) => {
+          if (!card) return;
+          const isActive = i === activeIdx;
+          
+          if (isActive) {
+            card.classList.add('wwd-card-active');
+          } else {
+            card.classList.remove('wwd-card-active');
+          }
+          
+          let scale, opacity;
+          
+          if (isActive) {
+            scale = 1.15;
+            opacity = 1;
+          } else {
+            const distance = Math.abs(i - activeIdx);
+            if (distance === 1) {
+              scale = 0.9;
+              opacity = 0.7;
+            } else {
+              scale = 0.8;
+              opacity = 0.4;
+            }
+          }
+          
+          gsap.to(card, { 
+            scale, 
+            opacity, 
+            duration: 0.35, 
+            ease: "power2.out", 
+            overwrite: true 
+          });
         });
       };
 
-      // Initialise highlight at progress 0 (card 0 active)
-      highlightCards(0);
+      setTimeout(() => updateCardHighlights(), 100);
 
-      // Build the pinned timeline
       const pinST = ScrollTrigger.create({
-        trigger  : sectionRef.current,
-        start    : "top top",
-        end      : () => `+=${getScrollDistance()}`,
-        pin      : true,
-        scrub    : 1.2,
+        trigger: sectionRef.current,
+        start: "top top",
+        end: () => `+=${getScrollDistance()}`,
+        pin: true,
+        scrub: 1.2,
         anticipatePin: 1,
         invalidateOnRefresh: true,
 
         onEnter: () => {
-          // Show cards area, hide stats/desc, show progress + hint
-          gsap.to(cardsAreaRef.current, { opacity: 1, y: 0,  duration: 0.5, ease: "power2.out" });
-          gsap.to(statsRef.current,     { opacity: 0, y: -10, duration: 0.3 });
-          gsap.to(descRef.current,      { opacity: 0.35, duration: 0.3 });
+          gsap.to(cardsAreaRef.current, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
+          gsap.to(statsRef.current, { opacity: 0, y: -10, duration: 0.3 });
+          gsap.to(descRef.current, { opacity: 0.35, duration: 0.3 });
           gsap.to(progressBarRef.current, { opacity: 1, duration: 0.4 });
-          gsap.to(hintRef.current,        { opacity: 1, duration: 0.4 });
+          gsap.to(hintRef.current, { opacity: 1, duration: 0.4 });
         },
 
         onLeaveBack: () => {
-          // Restore on scroll back above section
-          gsap.to(cardsAreaRef.current, { opacity: 0, y: 40,  duration: 0.4 });
-          gsap.to(statsRef.current,     { opacity: 1, y: 0,   duration: 0.4 });
-          gsap.to(descRef.current,      { opacity: 1,          duration: 0.4 });
+          gsap.to(cardsAreaRef.current, { opacity: 0, y: 40, duration: 0.4 });
+          gsap.to(statsRef.current, { opacity: 1, y: 0, duration: 0.4 });
+          gsap.to(descRef.current, { opacity: 1, duration: 0.4 });
           gsap.to(progressBarRef.current, { opacity: 0, duration: 0.3 });
-          gsap.to(hintRef.current,        { opacity: 0, duration: 0.3 });
+          gsap.to(hintRef.current, { opacity: 0, duration: 0.3 });
+          
+          cardsRef.current.forEach((card) => {
+            if (card) {
+              card.classList.remove('wwd-card-active');
+              gsap.to(card, { scale: 1, opacity: 1, duration: 0.3 });
+            }
+          });
         },
 
         onUpdate: (self) => {
-          // Slide track: from initialX  →  initialX - totalSlide
-          const x = getInitialX() - self.progress * getTotalSlide();
+          const startX = getInitialX();
+          const endX = getFinalX();
+          const x = startX + (self.progress * (endX - startX));
           gsap.set(track, { x });
 
-          // Progress bar
           if (progressFillRef.current) {
             progressFillRef.current.style.width = `${self.progress * 100}%`;
           }
 
-          // Card highlight
-          highlightCards(self.progress);
+          updateCardHighlights();
         },
       });
 
-      return () => pinST.kill();
+      const handleResize = () => {
+        gsap.set(track, { x: getInitialX() });
+        updateCardHighlights();
+        pinST.refresh();
+      };
+      
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        pinST.kill();
+        window.removeEventListener('resize', handleResize);
+      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -221,8 +291,6 @@ export default function WhatWeDo() {
 
   return (
     <section className="wwd-root" id="solutions" ref={sectionRef}>
-
-      {/* BACKGROUND LINES */}
       <svg className="wwd-bg-lines" viewBox="0 0 1440 900"
         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <g fill="none" stroke="#c94a4a" strokeLinecap="round">
@@ -235,78 +303,83 @@ export default function WhatWeDo() {
         </g>
       </svg>
 
-      {/* PINNED INNER */}
-      <div className="wwd-pinned-inner">
+      <div className="layout-container">
+        <div className="wwd-pinned-inner">
+          <div className="wwd-left" ref={leftRef}>
+            <span className="wwd-eyebrow" ref={eyebrowRef}>WHAT WE DELIVER</span>
 
-        {/* ── LEFT PANEL ── */}
-        <div className="wwd-left" ref={leftRef}>
-          <span className="wwd-eyebrow" ref={eyebrowRef}>WHAT WE DELIVER</span>
-
-          <div className="wwd-heading-wrap">
-            <h2 className="wwd-heading" ref={headingRef}>
-              Operations
-              <br />
-              <em>That don't stop.</em>
-            </h2>
-          </div>
-
-          <p className="wwd-desc" ref={descRef}>
-            Enterprise-grade OCR, automation, and infrastructure — purpose-built for logistics,
-            warehousing, and industrial operations.
-          </p>
-
-          <div className="wwd-stats" ref={statsRef}>
-            <div>
-              <div className="wwd-stat-num">11<span>+</span></div>
-              <div className="wwd-stat-label">Core Solutions</div>
+            <div className="wwd-heading-wrap">
+              <h2 className="wwd-heading" ref={headingRef}>
+                Operations
+                <br />
+                <em>That don't stop.</em>
+              </h2>
             </div>
-            <div>
-              <div className="wwd-stat-num">99<span>%</span></div>
-              <div className="wwd-stat-label">OCR Accuracy</div>
+
+            <p className="wwd-desc" ref={descRef}>
+              Enterprise-grade OCR, automation, and infrastructure — purpose-built for logistics,
+              warehousing, and industrial operations.
+            </p>
+
+            <div className="wwd-stats" ref={statsRef}>
+              <div>
+                <div className="wwd-stat-num">11<span>+</span></div>
+                <div className="wwd-stat-label">Core Solutions</div>
+              </div>
+              <div>
+                <div className="wwd-stat-num">99<span>%</span></div>
+                <div className="wwd-stat-label">OCR Accuracy</div>
+              </div>
+              <div>
+                <div className="wwd-stat-num">24<span>/7</span></div>
+                <div className="wwd-stat-label">Uptime SLA</div>
+              </div>
             </div>
-            <div>
-              <div className="wwd-stat-num">24<span>/7</span></div>
-              <div className="wwd-stat-label">Uptime SLA</div>
+
+            <div className="wwd-progress-bar" ref={progressBarRef}>
+              <div className="wwd-progress-fill" ref={progressFillRef} />
+            </div>
+
+            <div className="wwd-scroll-hint" ref={hintRef}>
+              <span className="wwd-hint-icon">⟶</span>
+              <span>Scroll to explore all solutions</span>
             </div>
           </div>
 
-          {/* Progress bar */}
-          <div className="wwd-progress-bar" ref={progressBarRef}>
-            <div className="wwd-progress-fill" ref={progressFillRef} />
-          </div>
-
-          {/* Hint */}
-          <div className="wwd-scroll-hint" ref={hintRef}>
-            <span className="wwd-hint-icon">⟶</span>
-            <span>Scroll to explore all solutions</span>
-          </div>
-        </div>
-
-        {/* ── CARDS CAROUSEL ── */}
-        <div className="wwd-cards-area" ref={cardsAreaRef}>
-          {/* Overflow-hidden viewport */}
-          <div className="wwd-track-viewport">
-            <div className="wwd-track" ref={trackRef}>
-              {services.map((service, index) => (
-                <Link
-                  key={service.slug}
-                  to={`/solutions/${service.slug}`}
-                  className="wwd-card"
-                  ref={(el) => (cardsRef.current[index] = el)}
-                >
-                  <div className="wwd-card-top">
-                    <span className="wwd-idx">{service.index}</span>
-                    <span className="wwd-tag">{service.tag}</span>
+          <div className="wwd-cards-area" ref={cardsAreaRef}>
+            <div className="wwd-track-viewport">
+              <div className="wwd-track" ref={trackRef}>
+                {services.map((service, index) => (
+                  <div
+                    key={service.slug}
+                    onClick={() => handleCardClick(service.slug)}
+                    className="wwd-card"
+                    ref={(el) => (cardsRef.current[index] = el)}
+                    role="link"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        handleCardClick(service.slug);
+                      }
+                    }}
+                  >
+                    <div className="wwd-card-click-overlay" />
+                    <div className="wwd-card-index-ring" />
+                    
+                    <div className="wwd-card-top">
+                      <span className="wwd-idx">{service.index}</span>
+                      <span className="wwd-tag">{service.tag}</span>
+                    </div>
+                    <h3 className="wwd-title">{service.title}</h3>
+                    <p className="wwd-text">{service.desc}</p>
+                    <div className="wwd-arrow">→</div>
+                    <div className="wwd-click-hint">View details</div>
                   </div>
-                  <h3 className="wwd-title">{service.title}</h3>
-                  <p className="wwd-text">{service.desc}</p>
-                  <div className="wwd-arrow">→</div>
-                </Link>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

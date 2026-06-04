@@ -6,10 +6,8 @@
   position: relative;
 }
 
-/* Header Styles - matching your theme */
 .logoloop-header {
-    /* text-align: center; */
-    margin-bottom: 60px;
+  margin-bottom: 60px;
 }
 
 .logoloop-eyebrow {
@@ -19,16 +17,17 @@
   font-size: 11px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: #c94a4a;
+  color: #D11C1C;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
 .logoloop-eyebrow-line {
   display: block;
-  width: 30px;
+  width: 40px;
   height: 1px;
-  background: linear-gradient(90deg, #c94a4a, transparent);
+  background: #D11C1C;
+  opacity: 0.6;
 }
 
 .logoloop-title {
@@ -36,28 +35,26 @@
   font-size: clamp(36px, 5vw, 52px);
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: #151515;
+  color: #222222;
   margin: 0 0 16px;
   line-height: 1.08;
 }
 
 .logoloop-title em {
-  font-style: normal;
-  background: linear-gradient(120deg, #c94a4a, #e07070);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+    font-style: normal;
+    background: linear-gradient(120deg, #D11C1C, #FDB813);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .logoloop-desc {
-  color: #888;
+  color: #888888;
   font-size: 16px;
   line-height: 1.6;
   max-width: 500px;
-  /* margin: 0 auto; */
 }
 
-/* Logo Loop Container */
 .logoloop-container {
   width: 100%;
   overflow: hidden;
@@ -65,7 +62,6 @@
   margin-top: 20px;
 }
 
-/* Gradient fades on edges */
 .logoloop-container::before,
 .logoloop-container::after {
   content: '';
@@ -99,19 +95,19 @@
 }
 
 .logoloop-item {
-  flex-shrink: 0;
-  padding: 20px 32px;
-  transition: transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    flex-shrink: 0;
+    padding: 20px 32px;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .logoloop-item:hover {
   transform: scale(1.05);
 }
 
-/* Logo Image Styles */
 .logo-image {
   height: 40px;
   width: auto;
@@ -127,7 +123,6 @@
   opacity: 1;
 }
 
-/* Fallback Text Styles */
 .logo-fallback {
   display: flex;
   align-items: center;
@@ -141,7 +136,7 @@
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #999;
+  color: #999999;
   white-space: nowrap;
   transition: all 0.3s ease;
   filter: grayscale(100%);
@@ -149,12 +144,14 @@
 }
 
 .logoloop-item:hover .logo-name {
-  color: #c94a4a;
+  background: linear-gradient(120deg, #D11C1C, #FDB813);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   filter: grayscale(0%);
   opacity: 1;
 }
 
-/* Animation keyframes */
 @keyframes scrollLogos {
   0% {
     transform: translateX(0);
@@ -164,7 +161,17 @@
   }
 }
 
-/* Responsive */
+@media (max-width: 1100px) {
+  .logoloop-section {
+    padding: 70px 0;
+  }
+  
+  .logoloop-container::before,
+  .logoloop-container::after {
+    width: 60px;
+  }
+}
+
 @media (max-width: 768px) {
   .logoloop-section {
     padding: 60px 0;
@@ -180,7 +187,6 @@
 
   .logoloop-desc {
     font-size: 14px;
-    padding: 0 20px;
   }
 
   .logoloop-item {
@@ -208,5 +214,50 @@
   .logoloop-container::before,
   .logoloop-container::after {
     width: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoloop-section {
+    padding: 50px 0;
+  }
+
+  .logoloop-header {
+    margin-bottom: 30px;
+  }
+
+  .logoloop-title {
+    font-size: 28px;
+  }
+
+  .logoloop-desc {
+    font-size: 13px;
+  }
+
+  .logoloop-item {
+    padding: 10px 15px;
+  }
+
+  .logo-image {
+    height: 25px;
+    max-width: 70px;
+  }
+
+  .logo-fallback {
+    min-width: 55px;
+    height: 25px;
+  }
+
+  .logo-name {
+    font-size: 12px;
+  }
+
+  .logoloop-track {
+    gap: 20px;
+  }
+
+  .logoloop-container::before,
+  .logoloop-container::after {
+    width: 40px;
   }
 }

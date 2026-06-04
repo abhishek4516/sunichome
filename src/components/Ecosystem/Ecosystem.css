@@ -4,11 +4,10 @@
   position: relative;
   overflow: hidden;
   padding: 140px 0;
-  background: linear-gradient(135deg, #faf9f8 0%, #ffffff 100%);
+  background: linear-gradient(145deg, #FFFFFF 0%, #F5F5F5 100%);
   font-family: "DM Sans", sans-serif;
 }
 
-/* Background Lines */
 .eco-bg-lines {
   position: absolute;
   inset: 0;
@@ -25,7 +24,7 @@
   top: -300px;
   right: -200px;
   border-radius: 50%;
-  background: radial-gradient(rgba(201, 74, 74, 0.06), transparent 70%);
+  background: radial-gradient(rgba(209, 28, 28, 0.06), transparent 70%);
   filter: blur(100px);
   z-index: 1;
   pointer-events: none;
@@ -39,7 +38,6 @@
   z-index: 2;
 }
 
-/* Grid Layout */
 .eco-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -47,7 +45,6 @@
   align-items: center;
 }
 
-/* LEFT CONTENT STYLES */
 .eco-content {
   position: relative;
 }
@@ -62,14 +59,14 @@
 .partner-badge-line {
   width: 32px;
   height: 1px;
-  background: linear-gradient(90deg, #c94a4a, transparent);
+  background: linear-gradient(90deg, #D11C1C, transparent);
 }
 
 .eco-partner-badge span:last-child {
   font-size: 11px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: #c94a4a;
+  color: #D11C1C;
   font-weight: 700;
 }
 
@@ -78,14 +75,14 @@
   font-size: clamp(42px, 5vw, 58px);
   line-height: 1.08;
   letter-spacing: -0.04em;
-  color: #151515;
+  color: #222222;
   margin: 0 0 24px;
   font-weight: 700;
 }
 
 .eco-heading em {
   font-style: normal;
-  background: linear-gradient(120deg, #c94a4a, #ea7b7b);
+  background: linear-gradient(120deg, #D11C1C, #FDB813);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -94,19 +91,18 @@
 .eco-description {
   font-size: 16px;
   line-height: 1.8;
-  color: #6a6a6a;
+  color: #666666;
   margin-bottom: 32px;
   max-width: 540px;
 }
 
-/* Impact Stats */
 .eco-impact-stats {
   display: flex;
   gap: 40px;
   margin: 32px 0 36px;
   padding: 24px 0;
-  border-top: 1px solid rgba(201, 74, 74, 0.12);
-  border-bottom: 1px solid rgba(201, 74, 74, 0.12);
+  border-top: 1px solid rgba(209, 28, 28, 0.12);
+  border-bottom: 1px solid rgba(209, 28, 28, 0.12);
 }
 
 .impact-stat {
@@ -119,7 +115,7 @@
   font-family: "Manrope", sans-serif;
   font-size: 28px;
   font-weight: 800;
-  background: linear-gradient(135deg, #c94a4a, #e77474);
+  background: linear-gradient(135deg, #D11C1C, #FDB813);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -129,17 +125,16 @@
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #8a8a8a;
+  color: #888888;
   font-weight: 600;
 }
 
-/* Live Demo Button */
 .eco-live-demo-btn {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   padding: 14px 32px;
-  background: linear-gradient(135deg, #c94a4a, #e77474);
+  background: linear-gradient(135deg, #D11C1C, #FDB813);
   color: white;
   text-decoration: none;
   border-radius: 40px;
@@ -158,41 +153,39 @@
 
 .eco-live-demo-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(201, 74, 74, 0.35);
+  box-shadow: 0 12px 28px rgba(209, 28, 28, 0.35);
 }
 
 .eco-live-demo-btn:hover .btn-arrow {
   transform: translateX(4px);
 }
 
-/* RIGHT - DASHBOARD CARD */
 .eco-dashboard-card {
   position: relative;
 }
 
 .dashboard-card-inner {
-  background: #ffffff;
+  background: #FFFFFF;
   border-radius: 32px;
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(201, 74, 74, 0.12);
+  border: 1px solid rgba(209, 28, 28, 0.12);
   transition: all 0.4s ease;
 }
 
 .dashboard-card-inner:hover {
   transform: translateY(-8px);
-  box-shadow: 0 35px 60px -15px rgba(201, 74, 74, 0.2);
+  box-shadow: 0 35px 60px -15px rgba(209, 28, 28, 0.2);
 }
 
-/* Logos Section */
 .dashboard-logos {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 24px;
   padding: 28px 28px 20px;
-  background: #faf9f8;
-  border-bottom: 1px solid #f0e8e8;
+  background: #F5F5F5;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .logo-item {
@@ -215,17 +208,16 @@
 }
 
 .sunic-placeholder {
-  background: linear-gradient(135deg, #c94a4a, #e77474);
+  background: linear-gradient(135deg, #D11C1C, #FDB813);
   color: white;
 }
 
 .logo-divider {
   width: 1px;
   height: 30px;
-  background: linear-gradient(180deg, transparent, rgba(201, 74, 74, 0.3), transparent);
+  background: linear-gradient(180deg, transparent, rgba(209, 28, 28, 0.3), transparent);
 }
 
-/* Dashboard Header Text */
 .dashboard-header-text {
   text-align: center;
   padding: 24px 28px 16px;
@@ -233,14 +225,14 @@
 
 .dashboard-badge {
   display: inline-block;
-  background: rgba(201, 74, 74, 0.1);
+  background: rgba(209, 28, 28, 0.1);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #c94a4a;
+  color: #D11C1C;
   margin-bottom: 12px;
 }
 
@@ -248,29 +240,28 @@
   font-family: "Manrope", sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: #151515;
+  color: #222222;
   margin: 0 0 8px;
   letter-spacing: -0.02em;
 }
 
 .dashboard-subtitle {
   font-size: 14px;
-  color: #6a6a6a;
+  color: #666666;
   margin: 0;
 }
 
-/* PLACEHOLDER IMAGE */
 .dashboard-image-placeholder {
   position: relative;
   margin: 0 20px;
   border-radius: 20px;
   overflow: hidden;
-  background: linear-gradient(135deg, #f0e8e8, #faf5f5);
+  background: linear-gradient(135deg, #E0E0E0, #F5F5F5);
   min-height: 240px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(201, 74, 74, 0.15);
+  border: 1px solid rgba(209, 28, 28, 0.15);
 }
 
 .dashboard-preview-img {
@@ -279,47 +270,12 @@
   display: block;
 }
 
-/* .placeholder-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(248, 247, 245, 0.9);
-  backdrop-filter: blur(2px);
-  text-align: center;
-  padding: 20px;
-} */
-
-/* .dashboard-image-placeholder.placeholder-active .dashboard-preview-img {
-  display: none;
-}
-
-.placeholder-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-} */
-
-/* .placeholder-text {
-  font-family: "Manrope", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: #c94a4a;
-  margin: 0 0 8px;
-} */
-
-.placeholder-note {
-  font-size: 12px;
-  color: #8a8a8a;
-}
-
 .dashboard-features {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   padding: 20px 28px;
-  border-bottom: 1px solid #f0e8e8;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .feature-tag {
@@ -327,8 +283,8 @@
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: #4a4a4a;
-    background: #f5f0f0;
+    color: #666666;
+    background: #F5F5F5;
     padding: 6px 8px;
     border-radius: 20px;
     font-weight: 500;
@@ -337,18 +293,17 @@
 .feature-dot {
   width: 5px;
   height: 5px;
-  background: #c94a4a;
+  background: #D11C1C;
   border-radius: 50%;
 }
-
 
 .dashboard-location-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 18px 28px;
-  background: #faf9f8;
-  border-bottom: 1px solid #f0e8e8;
+  background: #F5F5F5;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .location-info {
@@ -356,7 +311,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #4a4a4a;
+  color: #666666;
 }
 
 .location-icon {
@@ -400,12 +355,11 @@
   height: 42px;
 }
 
-
 .dashboard-image-wrapper {
   margin: 0 20px;
   border-radius: 16px;
   overflow: hidden;
-  background: #f5f0f0;
+  background: #F5F5F5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -419,7 +373,6 @@
 .dashboard-card-inner:hover .kycl-dashboard-img {
   transform: scale(1.02);
 }
-
 
 @media (max-width: 768px) {
   .partner-logo-img {
@@ -435,6 +388,7 @@
     margin: 0 16px;
   }
 }
+
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(1.3); }
@@ -447,7 +401,6 @@
   letter-spacing: 0.02em;
 }
 
-
 .dashboard-footer-note {
   display: flex;
   align-items: center;
@@ -455,20 +408,19 @@
   gap: 8px;
   padding: 18px 28px;
   font-size: 10px;
-  color: #8a8a8a;
+  color: #888888;
 }
 
 .dashboard-footer-note strong {
-  color: #c94a4a;
+  color: #D11C1C;
   font-weight: 700;
 }
 
 .footer-copyright {
   margin-left: 4px;
-  color: #aaa;
+  color: #888888;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .eco-grid {
     gap: 60px;

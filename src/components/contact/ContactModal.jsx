@@ -18,9 +18,12 @@ export default function ContactModal({ isOpen, onClose }) {
           <div className="section-label">Contact Sunic</div>
 
           <h2 className="contact-modal-title">
-            Let’s Build
+           Let's Build
+
+
+
             <br />
-            <em>Intelligent Infrastructure.</em>
+            <em>What You Need.</em>
           </h2>
 
           <p className="contact-modal-sub">

@@ -1,19 +1,88 @@
 import "./About.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+
+const CAROUSEL_IMAGES = [
+  {
+    id: 1,
+    url: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alt: "Modern IT infrastructure server room"
+  },
+  {
+    id: 2,
+    url: "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alt: "Tech team collaboration"
+  },
+  {
+    id: 3,
+    url: "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alt: "Enterprise technology solutions"
+  },
+  {
+    id: 4,
+    url: "https://images.pexels.com/photos/5468193/pexels-photo-5468193.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alt: "Data center and cloud infrastructure"
+  },
+  {
+    id: 5,
+    url: "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=800",
+    alt: "Network and system integration"
+  }
+];
+
 export default function About() {
   const sectionRef = useRef(null);
-  const imageRef = useRef(null);
+  const carouselRef = useRef(null);
   const labelRef = useRef(null);
   const titleRef = useRef(null);
   const desc1Ref = useRef(null);
   const desc2Ref = useRef(null);
   const statsRef = useRef(null);
   const partnersRef = useRef(null);
+  
+ 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const intervalRef = useRef(null);
+
+
+  const startAutoRotate = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (!isTransitioning) {
+        nextSlide();
+      }
+    }, 4000);
+  };
+
+  const stopAutoRotate = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  const goToSlide = (index) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 650);
+  };
+
+  const nextSlide = () => {
+    const nextIndex = (currentIndex + 1) % CAROUSEL_IMAGES.length;
+    goToSlide(nextIndex);
+  };
+
+  const prevSlide = () => {
+    const prevIndex = (currentIndex - 1 + CAROUSEL_IMAGES.length) % CAROUSEL_IMAGES.length;
+    goToSlide(prevIndex);
+  };
+
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -27,7 +96,7 @@ export default function About() {
       });
 
       tl.fromTo(
-        imageRef.current,
+        carouselRef.current,
         { opacity: 0, x: -40, scale: 0.95 },
         { opacity: 1, x: 0, scale: 1, duration: 0.9 },
         0
@@ -94,12 +163,19 @@ export default function About() {
       );
     }, sectionRef);
 
-    return () => ctx.revert();
+
+    const timer = setTimeout(startAutoRotate, 1000);
+    
+    return () => {
+      ctx.revert();
+      clearTimeout(timer);
+      stopAutoRotate();
+    };
   }, []);
 
   return (
     <section className="about-section" id="about" ref={sectionRef}>
-      {/* BACKGROUND LINES */}
+    
       <svg
         className="about-bg-lines"
         viewBox="0 0 1440 900"
@@ -119,26 +195,68 @@ export default function About() {
       <div className="layout-container">
         <div className="about-grid">
           
-          {/* LEFT - Image Section */}
-          <div className="about-image-wrap" ref={imageRef}>
-            <div className="about-img-frame">
-              <div className="about-img-badge">
-                <strong>22+</strong>
-                <span>Years of Excellence</span>
+
+          <div 
+            className="about-image-wrap" 
+            ref={carouselRef}
+            onMouseEnter={stopAutoRotate}
+            onMouseLeave={startAutoRotate}
+          >
+            <div className="carousel-container">
+              <div className="carousel-slides">
+                {CAROUSEL_IMAGES.map((image, index) => (
+                  <img
+                    key={image.id}
+                    src={image.url}
+                    alt={image.alt}
+                    className={`carousel-slide ${index === currentIndex ? "active" : ""}`}
+                    loading="lazy"
+                  />
+                ))}
               </div>
-              <div className="about-decorline"></div>
-              <div className="about-img-placeholder">
-                <span className="about-placeholder-text">SUNIC</span>
-                <span className="about-placeholder-sub">Since 2002</span>
+              
+              
+              <button 
+                className="carousel-btn carousel-btn-prev" 
+                onClick={prevSlide}
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+              <button 
+                className="carousel-btn carousel-btn-next" 
+                onClick={nextSlide}
+                aria-label="Next image"
+              >
+                ›
+              </button>
+              
+        
+              <div className="carousel-dots">
+                {CAROUSEL_IMAGES.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`carousel-dot ${index === currentIndex ? "active" : ""}`}
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
+            
+       
+            {/* <div className="about-img-badge">
+              <strong>22+</strong>
+              <span>Years of Excellence</span>
+            </div> */}
+            <div className="about-decorline"></div>
           </div>
 
-          {/* RIGHT - Content Section */}
+        
           <div className="about-content">
             <div className="section-label" ref={labelRef}>
               <span className="label-line"></span>
-            Who we are
+              Who we are
             </div>
 
             <h2 className="about-title" ref={titleRef}>
@@ -161,7 +279,7 @@ export default function About() {
               cutting-edge solutions.
             </p>
 
-            {/* Stats Section */}
+         
             <div className="about-stats" ref={statsRef}>
               <div className="about-stat">
                 <div className="about-stat-number">2002</div>
@@ -178,19 +296,6 @@ export default function About() {
             </div>
           </div>
         </div>
-
-        {/* Partners Section
-        <div className="about-partners" ref={partnersRef}>
-          <div className="partners-header">
-            <span className="partners-line"></span>
-            <span>Strategic Technology Partners</span>
-          </div>
-          <div className="partners-grid">
-            {["Oracle", "Cisco", "Microsoft", "VMware", "Symantec", "HP", "IBM", "EMC", "Citrix", "SUSE"].map((partner, i) => (
-              <div key={i} className="partner-tag">{partner}</div>
-            ))}
-          </div>
-        </div> */}
       </div>
     </section>
   );

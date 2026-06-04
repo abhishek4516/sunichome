@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ═══════════════════════════════════════════════════════
-   ROOT  —  no padding-top: GSAP pins the whole viewport
-═══════════════════════════════════════════════════════ */
 .wwd-root {
   font-family: 'Manrope', sans-serif;
   background: #ffffff;
   position: relative;
-  overflow: clip;   /* clips horizontal card overflow without breaking pin */
+  overflow: clip;   
 }
 
-/* ── BACKGROUND SVG ── */
+.layout-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 .wwd-bg-lines {
   position: absolute;
   inset: 0;
@@ -20,120 +22,115 @@
   pointer-events: none;
 }
 
-/* ═══════════════════════════════════════════════════════
-   PINNED WRAPPER
-   Two-row layout inside the pinned viewport:
-     Row 1 → left panel (shrinks on scroll)
-     Row 2 → full-width card carousel
-═══════════════════════════════════════════════════════ */
 .wwd-pinned-inner {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;           /* exactly one viewport tall when pinned */
-  padding: 72px 80px 0;
-  box-sizing: border-box;
-  overflow: hidden;        /* hide cards that are off-screen left/right */
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 75px 0px 0px 0px;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
-/* ═══════════════════════════════════════════════════════
-   LEFT PANEL
-═══════════════════════════════════════════════════════ */
 .wwd-left {
   flex-shrink: 0;
   padding-bottom: 28px;
 }
 
-/* EYEBROW */
 .wwd-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: #c94a4a;
-  margin-bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #D11C1C;
+    margin-bottom: 16px;
+    font-weight: 600;
 }
+
 .wwd-eyebrow::before {
   content: '';
   width: 28px;
   height: 1px;
-  background: #c94a4a;
+  background: #D11C1C;
   opacity: 0.6;
 }
 
-/* HEADING */
 .wwd-heading-wrap {
   overflow: hidden;
 }
+
 .wwd-heading {
-  font-family: 'Manrope', sans-serif;
-  font-size: clamp(30px, 3.4vw, 56px);
-  line-height: 1.05;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: -0.04em;
-  margin: 0 0 14px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(30px, 3.4vw, 60px);
+    line-height: 1.05;
+    font-weight: 700;
+    color: #222222;
+    letter-spacing: -0.04em;
+    margin: 0 0 14px;
 }
+
 .wwd-heading em {
   font-style: normal;
-  background: linear-gradient(120deg, #c94a4a, #e07070);
+  background: linear-gradient(120deg, #D11C1C, #FDB813);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* DESC */
 .wwd-desc {
   max-width: 560px;
-  color: #888;
+  color: #666666;
   line-height: 1.8;
   font-size: 16px;
   margin-bottom: 28px;
 }
 
-/* STATS */
 .wwd-stats {
   display: flex;
   gap: 30px;
   padding-top: 20px;
-  border-top: 1px solid #f0eded;
+  border-top: 1px solid #E0E0E0;
   margin-bottom: 24px;
 }
+
 .wwd-stat-num {
   font-family: 'Manrope', sans-serif;
   font-size: 24px;
-  color: #1a1a1a;
+  color: #222222;
   font-weight: 700;
   margin-bottom: 3px;
 }
-.wwd-stat-num span { color: #c94a4a; }
+
+.wwd-stat-num span { 
+  color: #D11C1C; 
+}
+
 .wwd-stat-label {
   font-size: 11px;
-  color: #bbb;
+  color: #888888;
   letter-spacing: 0.05em;
 }
 
-/* ── PROGRESS BAR ── */
 .wwd-progress-bar {
   height: 2px;
   width: 260px;
-  background: #f0e8e8;
+  background: #E0E0E0;
   border-radius: 100px;
   overflow: hidden;
   margin-bottom: 10px;
-  opacity: 0;                /* revealed by GSAP onEnter */
+  opacity: 0;
 }
+
 .wwd-progress-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #c94a4a, #e07070);
+  background: linear-gradient(90deg, #D11C1C, #FDB813);
   border-radius: 100px;
 }
 
-/* ── SCROLL HINT ── */
 .wwd-scroll-hint {
   display: flex;
   align-items: center;
@@ -141,178 +138,286 @@
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #ccb8b8;
-  opacity: 0;                /* revealed by GSAP onEnter */
-}
-.wwd-hint-icon {
-  font-size: 14px;
-  color: #c94a4a;
-  animation: hintSlide 1.6s ease-in-out infinite;
-}
-@keyframes hintSlide {
-  0%,100% { transform: translateX(0);   opacity: 1; }
-  50%      { transform: translateX(7px); opacity: 0.4; }
+  color: #888888;
+  opacity: 0;
 }
 
-/* ═══════════════════════════════════════════════════════
-   CARDS AREA  —  fills remaining height, clips overflow
-═══════════════════════════════════════════════════════ */
+.wwd-hint-icon {
+  font-size: 14px;
+  color: #D11C1C;
+  animation: hintSlide 1.6s ease-in-out infinite;
+}
+
+@keyframes hintSlide {
+  0%, 100% { 
+    transform: translateX(0);   
+    opacity: 1; 
+  }
+  50% { 
+    transform: translateX(7px); 
+    opacity: 0.4; 
+  }
+}
+
 .wwd-cards-area {
   flex: 1;
   display: flex;
-  align-items: center;        /* vertically centre the cards in the remaining space */
-  /* bleed to page edges so cards slide in/out from sides */
-  margin-left:  -80px;
-  margin-right: -80px;
-  overflow: hidden;           /* THE key rule: clips cards outside the viewport */
-  opacity: 0;                 /* revealed by GSAP onEnter */
-  transform: translateY(40px);/* will be animated to 0 */
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(40px);
+  position: relative;
+  width: 100%;
 }
 
-/* Full-width track container */
 .wwd-track-viewport {
   width: 100%;
   position: relative;
+  overflow: visible;
 }
 
-/* ── THE SLIDING TRACK ──
-   width: max-content  →  as wide as all cards combined
-   GSAP sets transform: translateX(…) to slide it        */
 .wwd-track {
   display: flex;
   flex-direction: row;
-  gap: 28px;                  /* must equal CARD_GAP constant in JSX */
-  padding: 20px 0 40px;
+  gap: 28px;
+  padding: 20px 0 40px 0;
   width: max-content;
   will-change: transform;
+  align-items: center;
 }
 
-/* ═══════════════════════════════════════════════════════
-   CARD
-   width must equal CARD_WIDTH constant in JSX (360px)
-═══════════════════════════════════════════════════════ */
 .wwd-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  text-decoration: none;
-  color: inherit;
   cursor: pointer;
-
-  width: 400px;               /* ← must match CARD_WIDTH in JSX */
+  width: 360px;
   flex-shrink: 0;
-  height: 280px;              /* fixed height keeps carousel row tidy */
-
-  padding: 34px 34px 52px;
-  border-radius: 24px;
+  min-height: 340px;
+  padding: 36px 36px 52px;
+  border-radius: 28px;
   overflow: hidden;
-  background: #fdf8f8;
-  border: 1px solid #f0e8e8;
-
+  background: #FFFFFF;
+  border: 1px solid rgba(209, 28, 28, 0.08);
   transform-origin: center center;
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
-/* Top shimmer line */
 .wwd-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 36px; right: 36px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,74,74,0.12), transparent);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #D11C1C, #FDB813, #D11C1C);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
-.wwd-card:hover {
-  border-color: #e8c4c4;
-  background: #fef4f4;
-  box-shadow: 0 12px 40px rgba(201,74,74,0.09);
+.wwd-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(209, 28, 28, 0.03), transparent 60%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 0;
 }
 
-/* CARD TOP ROW */
+.wwd-card.wwd-card-active {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(209, 28, 28, 0.15);
+  background: #FFFFFF;
+  box-shadow: 0 20px 60px rgba(209, 28, 28, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.wwd-card.wwd-card-active::before {
+  opacity: 1;
+}
+
+.wwd-card.wwd-card-active::after {
+  opacity: 1;
+}
+
+.wwd-card.wwd-card-active .wwd-tag {
+  background: rgba(209, 28, 28, 0.15);
+}
+
+.wwd-card.wwd-card-active .wwd-title {
+  background: linear-gradient(120deg, #D11C1C, #FDB813);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wwd-card.wwd-card-active .wwd-arrow {
+  transform: translate(4px, -4px) scale(1.1);
+  border-color: #D11C1C;
+  color: #D11C1C;
+  background: rgba(209, 28, 28, 0.05);
+  box-shadow: 0 4px 12px rgba(209, 28, 28, 0.15);
+}
+
+.wwd-card.wwd-card-active .wwd-click-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wwd-card.wwd-card-active .wwd-card-index-ring {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+}
+
 .wwd-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
-/* NUMBER */
 .wwd-idx {
-  font-size: 11px;
-  letter-spacing: 0.26em;
-  color: #c94a4a;
-  opacity: 0.55;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: #D11C1C;
+  font-weight: 700;
+  opacity: 0.7;
+  position: relative;
+  z-index: 2;
 }
 
-/* TAG PILL */
+.wwd-card-index-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(209, 28, 28, 0.15);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
 .wwd-tag {
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #a83a3a;
-  background: #faeaea;
-  border: 1px solid #f0d0d0;
+  color: #D11C1C;
+  background: rgba(209, 28, 28, 0.08);
+  border: none;
   border-radius: 100px;
-  padding: 4px 10px;
+  padding: 4px 14px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
-/* TITLE */
 .wwd-title {
   font-family: 'Manrope', sans-serif;
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.2;
-  color: #1a1a1a;
+  color: #222222;
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin-bottom: 10px;
-  flex-shrink: 0;
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
-/* BODY TEXT */
 .wwd-text {
-  color: #888;
+  color: #666666;
   line-height: 1.8;
-  font-size: 13.5px;
+  font-size: 14px;
   flex: 1;
-  /* clamp text so it never overflows fixed card height */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 }
 
-/* ARROW */
 .wwd-arrow {
   position: absolute;
-  right: 22px;
-  bottom: 20px;
-  width: 32px;
-  height: 32px;
+  right: 24px;
+  bottom: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid #f0e0e0;
-  display: flex;
+  border: 1px solid #E0E0E0;
+  display: none;
   align-items: center;
   justify-content: center;
-  color: #dbb8b8;
-  transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-.wwd-card:hover .wwd-arrow {
-  transform: translate(4px, -4px);
-  border-color: #c94a4a;
-  color: #c94a4a;
+  color: #888888;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  background: #FFFFFF;
+  z-index: 2;
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════ */
+.wwd-click-hint {
+  position: absolute;
+  bottom: 72px;
+  right: 28px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #D11C1C;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  font-weight: 600;
+  background: rgba(209, 28, 28, 0.06);
+  padding: 4px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.wwd-click-hint::after {
+  content: '→';
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.wwd-card.wwd-card-active .wwd-click-hint::after {
+  transform: translateX(4px);
+}
+
+.wwd-card-click-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: transparent;
+  z-index: 1;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.wwd-card.wwd-card-active .wwd-card-click-overlay {
+  background: rgba(209, 28, 28, 0.02);
+}
+
 @media (max-width: 1100px) {
   .wwd-pinned-inner {
     padding: 56px 40px 0;
-  }
-  .wwd-cards-area {
-    margin-left: -40px;
-    margin-right: -40px;
   }
 }
 
@@ -320,19 +425,30 @@
   .wwd-pinned-inner {
     padding: 44px 24px 0;
   }
-  .wwd-heading { font-size: clamp(26px, 7vw, 38px); }
-  .wwd-desc    { font-size: 14px; }
-  .wwd-stats   { gap: 16px; }
-  .wwd-cards-area {
-    margin-left: -24px;
-    margin-right: -24px;
+  .wwd-heading { 
+    font-size: clamp(26px, 7vw, 38px); 
+  }
+  .wwd-desc { 
+    font-size: 14px; 
+  }
+  .wwd-stats { 
+    gap: 16px; 
   }
   .wwd-card {
     width: 280px;
-    height: 260px;
+    min-height: 280px;
     padding: 26px 24px 48px;
   }
-  .wwd-title  { font-size: 17px; }
-  .wwd-arrow  { display: none; }
-  .wwd-progress-bar { width: 180px; }
+  .wwd-title { 
+    font-size: 17px; 
+  }
+  .wwd-arrow { 
+    display: none; 
+  }
+  .wwd-click-hint {
+    display: none;
+  }
+  .wwd-progress-bar { 
+    width: 180px; 
+  }
 }

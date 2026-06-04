@@ -9,10 +9,8 @@ export default function Navbar({ onContactClick }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      // For background change
       setScrolled(window.scrollY > 50);
       
-      // Calculate scroll progress for the pill
       const winScroll = document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrolled = (winScroll / height) * 100;
@@ -34,7 +32,21 @@ export default function Navbar({ onContactClick }) {
     };
   }, [menuOpen]);
 
-  const navItems = ["About", "Solutions", "Services", "Contact"];
+  const handleNavClick = (e, sectionId) => {
+    e.preventDefault();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setMenuOpen(false);
+  };
+
+  const navItems = [
+    { name: "About", id: "about" },
+    { name: "Solutions", id: "solutions" },
+    { name: "Services", id: "ecosystem" },
+    { name: "Contact", id: "contact" }
+  ];
 
   return (
     <>
@@ -44,8 +56,13 @@ export default function Navbar({ onContactClick }) {
       
           <ul className="navbar-links">
             {navItems.map((item) => (
-              <li key={item}>
-                <a href={`#${item.toLowerCase()}`}>{item}</a>
+              <li key={item.name}>
+                <a 
+                  href={`#${item.id}`} 
+                  onClick={(e) => handleNavClick(e, item.id)}
+                >
+                  {item.name}
+                </a>
               </li>
             ))}
           </ul>
@@ -71,7 +88,6 @@ export default function Navbar({ onContactClick }) {
             </button>
           </div>
 
-          {/* MOBILE MENU BUTTON */}
           <button
             className={`navbar-mobile-btn ${menuOpen ? "active" : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -83,28 +99,21 @@ export default function Navbar({ onContactClick }) {
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
       <div className={`mobile-menu ${menuOpen ? "mobile-menu-open" : ""}`}>
         <div className="mobile-menu-container">
           <ul className="mobile-menu-links">
             {navItems.map((item) => (
-              <li key={item}>
+              <li key={item.name}>
                 <a
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setMenuOpen(false)}
+                  href={`#${item.id}`}
+                  onClick={(e) => handleNavClick(e, item.id)}
                 >
-                  {item}
+                  {item.name}
                 </a>
               </li>
             ))}
           </ul>
           <div className="mobile-menu-buttons">
-            <button className="mobile-menu-signin" onClick={() => {
-              setMenuOpen(false);
-              onContactClick();
-            }}>
-              Sign In
-            </button>
             <button className="mobile-menu-demo" onClick={() => {
               setMenuOpen(false);
               onContactClick();
