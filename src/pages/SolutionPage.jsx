@@ -23,14 +23,13 @@ export default function SolutionPage() {
   const featuresRef = useRef([]);
   const ctaRef      = useRef(null);
 
-  // Accordion body refs for GSAP height animation
+
   const accordionBodyRefs = useRef([]);
 
   const toggleAccordion = (i) => {
     const isOpen = openIndex === i;
     const newIndex = isOpen ? null : i;
 
-    // Animate closing previous
     if (openIndex !== null && accordionBodyRefs.current[openIndex]) {
       gsap.to(accordionBodyRefs.current[openIndex], {
         height: 0,
@@ -40,7 +39,6 @@ export default function SolutionPage() {
       });
     }
 
-    // Animate opening new
     if (!isOpen && accordionBodyRefs.current[i]) {
       const el = accordionBodyRefs.current[i];
       gsap.set(el, { height: "auto", opacity: 1 });
@@ -173,7 +171,6 @@ export default function SolutionPage() {
           </g>
         </svg>
 
-        {/* HERO */}
         <div className="sp-hero-wrapper layout-container">
           <div className="sp-hero-grid">
             <div className="sp-hero-content">
@@ -206,12 +203,12 @@ export default function SolutionPage() {
           </div>
         </div>
 
-        {/* DIVIDER */}
+      
         <div className="sp-divider layout-container">
           <div className="sp-divider-line" />
         </div>
 
-        {/* FEATURES ACCORDION */}
+       
         <div className="sp-features-section layout-container">
 
           <div className="sp-section-header">
@@ -268,7 +265,7 @@ export default function SolutionPage() {
 
         </div>
 
-        {/* CTA */}
+      
         <div className="sp-cta-wrap layout-container" ref={ctaRef}>
           <div className="sp-cta">
             <div className="sp-cta-glow" />

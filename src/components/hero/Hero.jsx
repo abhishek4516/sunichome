@@ -1,7 +1,22 @@
 import { useEffect, useRef } from "react";
-import HeroVisual from "./HeroVisual";
 import "./Hero.css";
 import gsap from "gsap";
+
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+
+function TrainModel() {
+  const { scene } = useGLTF("models/engine.glb");
+
+  return (
+    <primitive
+      object={scene}
+      scale={1.5}
+      position={[0, -1, 0]}
+      rotation={[0, Math.PI / 4, 0]}
+    />
+  );
+}
 
 export default function Hero() {
   const heroRef = useRef(null);
@@ -17,22 +32,19 @@ export default function Hero() {
         defaults: { ease: "power3.out" },
       });
 
-      /* 1 — Badge slides in from left */
       tl.fromTo(
         badgeRef.current,
         { opacity: 0, x: -14 },
-        { opacity: 1, x: 0, duration: 0.45 },
+        { opacity: 1, x: 0, duration: 0.45 }
       );
 
-      /* 2 — Title fades up with slight scale */
       tl.fromTo(
         titleRef.current,
         { yPercent: 115, opacity: 0 },
         { yPercent: 0, opacity: 1, duration: 0.72 },
-        "-=0.1",
+        "-=0.1"
       );
 
-      /* 3 — Subtitle fades up with blur */
       tl.fromTo(
         subRef.current,
         { opacity: 0, y: 28, filter: "blur(6px)" },
@@ -43,10 +55,9 @@ export default function Hero() {
           duration: 0.85,
           ease: "power2.out",
         },
-        "-=0.35",
+        "-=0.35"
       );
 
-      /* 4 — Buttons fade up */
       tl.fromTo(
         actionsRef.current,
         { opacity: 0, y: 28, filter: "blur(6px)" },
@@ -57,15 +68,14 @@ export default function Hero() {
           duration: 0.85,
           ease: "power2.out",
         },
-        "-=0.25",
+        "-=0.25"
       );
 
-      /* 5 — HeroVisual fades in from right with slight scale */
       tl.fromTo(
         visualRef.current,
         { opacity: 0, x: 40, scale: 0.96 },
         { opacity: 1, x: 0, scale: 1, duration: 1, ease: "power3.out" },
-        "-=0.5",
+        "-=0.5"
       );
     }, heroRef);
 
@@ -74,7 +84,6 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home" ref={heroRef}>
-      {/* BACKGROUND LINES */}
       <svg
         className="hero-bg-lines"
         viewBox="0 0 1440 900"
@@ -130,11 +139,10 @@ export default function Hero() {
 
       <div className="layout-container">
         <div className="hero-container">
-          {/* ── LEFT CONTENT ── */}
           <div className="hero-content">
             <div className="hero-badge" ref={badgeRef}>
               <span className="hero-badge-line" />
-              <span>Industrial  Intelligence</span>
+              <span>Industrial Intelligence</span>
             </div>
 
             <h1 className="hero-title" ref={titleRef}>
@@ -154,15 +162,37 @@ export default function Hero() {
               <a className="btn-primary" href="#solutions">
                 Explore Solutions
               </a>
+
               <a className="btn-outline" href="#contact">
                 Talk to Experts
               </a>
             </div>
           </div>
 
-          {/* ── RIGHT VISUAL ── */}
-          <div ref={visualRef}>
-            <HeroVisual />
+          {/* TRAIN MODEL */}
+          <div
+            ref={visualRef}
+            style={{
+              width: "100%",
+              height: "500px",
+            }}
+          >
+            <Canvas camera={{ position: [5, 2, 8], fov: 45 }}>
+              <ambientLight intensity={2} />
+
+              <directionalLight
+                position={[10, 10, 5]}
+                intensity={3}
+              />
+
+              <TrainModel />
+
+              <OrbitControls
+                enableZoom={false}
+                autoRotate
+                autoRotateSpeed={1}
+              />
+            </Canvas>
           </div>
         </div>
       </div>

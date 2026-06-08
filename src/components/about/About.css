@@ -189,7 +189,8 @@
 }
 
 .about-content {
-  position: relative;
+    position: relative;
+    max-width: 700px;
 }
 
 .section-label {
@@ -230,10 +231,10 @@
 }
 
 .about-desc {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #666666;
-  margin-bottom: 18px;
+    font-size: 20px;
+    line-height: 1.7;
+    color: #666666;
+    margin-bottom: 18px;
 }
 
 .about-stats {
